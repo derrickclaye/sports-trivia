@@ -1,0 +1,12 @@
+{
+  "name": "sports-trivia",
+  "displayName": "sports-trivia",
+  "expo": {
+    "name": "sports-trivia",
+    "slug": "sports-trivia",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
