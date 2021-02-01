@@ -1,13 +1,15 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {Button} from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { store } from '../../redux/store';
-import QuestionContainer from './QuestionContainer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ContestContainer from './ContestContainer';
 import { QUESTIONS } from '../../questions';
 import { createFiveRandomNumbers } from '../../helper-functions';
 import { QUESTION_INDEXES, BEGIN_TRIVIA } from '../../redux/actions';
+
 
 class HomeScreen extends React.Component{
 
@@ -20,6 +22,11 @@ class HomeScreen extends React.Component{
         }
     };
 
+    retrieveData = async () => {
+        let values = await AsyncStorage.getAllKeys()
+    }
+   
+
     startTrivia = () => {
         let length = QUESTIONS.length
         let indexes = createFiveRandomNumbers(length)
@@ -28,25 +35,32 @@ class HomeScreen extends React.Component{
         
     }
 
+    check = async () => {
+        let keys = await AsyncStorage.getAllKeys()
+        console.log(keys)
+        console.log(store.getState())
+    }
+
     render() {
+        
         return (
             <View style={styles.container}>
                 {
-                    this.props.status === true 
+                    this.props.status === true  
                     ?
                     <>
-                        <ContestContainer/>
+                        <ContestContainer />
                     </>
                     :
                     <>
                         <View >
                             <Ionicons style={styles.icon} onPress={this.startTrivia} name='add' size={32} color='green' />
                             <Text>
-                                START TRIVIA 
+                                START TRIVIA {this.props.username}
                             </Text>
                         </View>
                     </>
-                }
+                } 
             </View>
         );
     };
@@ -63,8 +77,9 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = ({trivia}) => ({
-    status: trivia.status
+const mapStateToProps = ({trivia, auth}) => ({
+    status: trivia.status,
+    username: auth.username
 })
 
 export default connect(mapStateToProps)(HomeScreen) 

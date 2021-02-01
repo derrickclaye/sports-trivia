@@ -13,22 +13,39 @@ class QuestionContainer extends React.Component{
         second: 10,
         id: null
     }
+
     componentDidMount() {
         let timer = setInterval(this.updateTimer,1000);
+        console.log(timer)
         this.setState({id:timer})
     }
+    
     componentWillUnmount() {
         clearInterval(this.state.id)
+        console.log(this.state.id)
     }
     updateTimer = () => {
+       
         if(this.state.second <= 10 && this.state.second > 0) {
             this.setState(prevState => ({
                 second: prevState.second - 1
             }))
         }
         
+        if(this.state.second === 0 && this.props.remaining >= 1) {
+            store.dispatch({type: ADD_TO_USED_QUESTIONS, payload: {usedIndexes: this.props.usedIndexes, index: this.props.index } })
+            store.dispatch({type: RESET_CHOICE})
+            this.setState({second: 10})
+        }
+
+        if(this.state.second === 0 && this.props.remaining >= 0) {
+            store.dispatch({type: ADD_TO_USED_QUESTIONS, payload: {usedIndexes: this.props.usedIndexes, index: this.props.index } })
+            store.dispatch({type: RESET_CHOICE})
+        }
+     
     }
     onSubmit = () => {
+        console.log(this.props.remaining)
         if(this.props.choice === null) return;
         if(this.props.choice === this.props.answer) {
             let score = this.props.score + 1;
@@ -37,6 +54,7 @@ class QuestionContainer extends React.Component{
         store.dispatch({type: ADD_TO_USED_QUESTIONS, payload: {usedIndexes: this.props.usedIndexes, index: this.props.index } })
         store.dispatch({type: RESET_CHOICE})
         this.setState({second: 10})
+       
     }
 
 

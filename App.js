@@ -1,35 +1,28 @@
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './redux/store';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from './components/class/HomeScreen';
-import GamHistory from './components/class/GameHistory';
+import { createStackNavigator } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import TriviaNavigator from './navigators/TriviaNavigator';
+import AuthNavigator from './navigators/AuthNavigator';
+import AppComponent from './components/class/AppComponent';
 
-const Tab = createBottomTabNavigator();
 
 export default class App extends React.Component {
-  render() {
+  
+  render() {  
     return (
       
           <Provider store={store}>
-            
-              <NavigationContainer>
-                <Tab.Navigator 
-                  initialRouteName='Home'>
-                  <Tab.Screen 
-                    name='Home' 
-                    component={HomeScreen} 
-                    
-                  />
-                  <Tab.Screen name='History' component={GamHistory}/>
-                </Tab.Navigator>
-              </NavigationContainer>
-            
+            <PersistGate loading={null} persistor={persistor}>
+              <AppComponent /> 
+            </PersistGate>
+             
           </Provider>
        
     );
@@ -45,3 +38,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+

@@ -1,17 +1,22 @@
 import React from 'react';
-import {View, Text} from 'react-native';
-import {} from 'react-native-elements';
+import {View, Text, StyleSheet} from 'react-native';
+import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import QuestionContainer from './QuestionContainer';
 import { QUESTIONS } from '../../questions';
+import { RESET_SESSION } from '../../redux/actions';
+import { store } from '../../redux/store';
 
 class ContestContainer extends React.Component{
 
-
+    reset = () => {
+        store.dispatch({type: RESET_SESSION})
+    }
+   
     render() {
         let validIndexes = this.props.indexes.filter(idx => {
             let used = this.props.usedIndexes.includes(idx) 
-            if(used === false) return idx
+            if(used === false) return true
         });
         let index = validIndexes[0];
         let question = QUESTIONS[index];
@@ -21,7 +26,7 @@ class ContestContainer extends React.Component{
                     validIndexes.length > 0 
                     ?
                     <>
-                        <QuestionContainer index={index} title={question.question} choices={question.choices} answer={question.answer} />
+                        <QuestionContainer index={index} title={question.question} choices={question.choices} answer={question.answer} remaining={validIndexes.length-1} />
                     </>
                     :
                     <>
@@ -29,6 +34,7 @@ class ContestContainer extends React.Component{
                             <Text>
                                 Game over. Score - {this.props.score}
                             </Text>
+                            <Button type='clear' title='play again' onPress={this.reset}  />
                         </View>
                     </>
                 }
@@ -36,6 +42,8 @@ class ContestContainer extends React.Component{
         )
     };
 };
+
+const styles = StyleSheet.create({})
 
 const mapStateToProps = ({trivia}) => ({
     indexes: trivia.indexes,
