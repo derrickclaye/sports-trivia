@@ -60,7 +60,7 @@ class SearchComponent extends React.Component{
 
 const styles = StyleSheet.create({
     container: {
-        flex: 2,
+        flex: 1,
         width: '100%',
         overflow: 'hidden',
         marginTop: 0

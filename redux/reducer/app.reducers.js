@@ -42,8 +42,8 @@ const FRIENDS_INITIAL_STATE = {
     friendId: null
 };
 const MULTI_PLAYER_INITIAL_STATE = {
-    requests: [],
-    matches: [],
+    requests: {},
+    matches: {},
 
 }
 

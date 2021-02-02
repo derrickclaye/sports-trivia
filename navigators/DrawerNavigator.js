@@ -8,7 +8,7 @@ import FriendRequests from '../components/class/FriendRequests';
 import { View, Text, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { store } from '../redux/store';
-import { RESET_REQUESTS, RESET_AUTH, RESET_SESSION } from '../redux/actions'
+import { RESET_REQUESTS, RESET_AUTH, RESET_SESSION, RESET_MULTI_PLAYER } from '../redux/actions'
 import { AntDesign } from '@expo/vector-icons';
 
 const Drawer = createDrawerNavigator();
@@ -18,6 +18,7 @@ const logout = async () => {
     store.dispatch({type: RESET_AUTH})
     store.dispatch({type: RESET_REQUESTS})
     store.dispatch({type: RESET_SESSION})
+    store.dispatch({type: RESET_MULTI_PLAYER})
 }
 
 const LogoutDrawerItem = props => (
