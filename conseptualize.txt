@@ -1,3 +1,0 @@
-1 - send request to friend
-2 - accept or deny request
-3 - 
